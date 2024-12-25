@@ -59,18 +59,18 @@ class LaporanKeuanganController extends Controller
      */
     public function update(UpdatelaporanKeuanganRequest $request, laporanKeuangan $laporanKeuangan, $kode)
     {
-        $data = laporanKeuangan::where('id', $kode)->first();
-        $data->total_pemasukan = $request->total_pemasukan;
-        $data->update();
-        return redirect(route('layanan.tampil'))->with('success', 'Data Berhasil diUpdate');
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(laporanKeuangan $laporanKeuangan)
+    public function destroy(laporanKeuangan $laporanKeuangan, $id)
     {
-        //
+        $data = laporanKeuangan::where('id', $id)->first();
+        $data->delete();
+        return redirect(route('laporanKeuangan.tampil'))->with('success', 'Data Berhasil dihapus');
+        
     }
     public function pdf() {
         $laporanKeuangan = laporanKeuangan::all();

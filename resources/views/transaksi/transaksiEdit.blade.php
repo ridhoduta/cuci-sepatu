@@ -18,8 +18,8 @@
                     class="form-control" 
                     id="tanggal_transaksi" 
                     name="tanggal_transaksi" 
-                    value="{{ old('tanggal_transaksi', $transaksi->tanggal_transaksi) }}" 
-                    required>
+                    value="{{ old('tanggal_transaksi', \Carbon\Carbon::parse($transaksi->tanggal_transaksi)->format('Y-m-d') ?? '') }}"  
+                    readonly>
             </div>
 
             <!-- Input Jumlah Pembayaran -->

@@ -13,6 +13,7 @@
                         <th>Kode Pesanan</th>
                         <th>Tanggal Transaksi</th>
                         <th>Jumlah Pembayaran</th>
+                        <th>Status Pembayaran</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -21,14 +22,33 @@
                     <tr>
                         <td>{{ $tr->pesanan->kode_pesanan }}</td>
                         <td>{{ $tr->tanggal_transaksi }}</td>
-                        {{-- <td>{{ $tr->jumlah_pembayaran }}</td> --}}
                         <td>Rp.{{ number_format($tr->jumlah_pembayaran, 0, ',', '.') }}</td>
+                        <td>{{ $tr->status_pembayaran }}</td>
                         <td>
                             <a class="btn btn-warning"href="{{route('transaksi.edit',$tr->id)}}">Update</a>
-                            <form action="" method="POST">
-                             @csrf
-                              <button class="btn btn-danger mt-2">hapus</button>
-                             </form>
+                            <form action="{{route('transaksi.hapus', $tr->id)}}" method="POST">
+                                @csrf
+                                   <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                       hapus
+                                   </button>
+                                   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                       <div class="modal-content">
+                                       <div class="modal-header">
+                                           <h1 class="modal-title fs-5" id="staticBackdropLabel">Konfirmasi Aksi</h1>
+                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                       </div>
+                                       <div class="modal-body">
+                                           yakin ingin hapus?
+                                       </div>
+                                       <div class="modal-footer">
+                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                           <button type="submit" class="btn btn-danger mt-2" id="btn-hapus">hapus</button>
+                                       </div>
+                                       </div>
+                                   </div>
+                                   </div>
+                                </form>
                          </td>
                     </tr>    
                     @endforeach

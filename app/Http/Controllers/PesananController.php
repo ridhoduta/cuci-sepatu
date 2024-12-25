@@ -143,12 +143,30 @@ class PesananController extends Controller
      */
     public function update(UpdatepesananRequest $request, pesanan $pesanan, $kode)
     {
-        $data = pesanan::where('kode_pesanan', $kode)->first();
-        $data->layanan_id = $request->layanan_id;
-        $data->jenisBarang_id = $request->jenisBarang_id;
-        $data->status_pesanan = $request->status_pesanan;
-        $data->update();
-        return redirect(route('pesanan.tampil'))->with('success', 'Data Berhasil diUpdate');
+        $pesanan = pesanan::where('kode_pesanan', $kode)->first();
+        
+
+        if ($request->status_pesanan == 'Dibatalkan') {
+            $pesananID = $pesanan->id;
+            $jadwal = jadwalPesanan::where('pesanan_id', $pesananID)->first();
+            $transaksi = transaksi::where('pesanan_id', $pesananID)->first();
+            $transaksiID = $transaksi->id;
+            $laporan = laporanKeuangan::where('transaksi_id', $transaksiID)->first();
+            $jadwal->delete();
+            $transaksi->delete();
+            $laporan->delete();
+            $pesanan->layanan_id = $request->layanan_id;
+            $pesanan->jenisBarang_id = $request->jenisBarang_id;
+            $pesanan->status_pesanan = $request->status_pesanan;
+            $pesanan->update();
+            return redirect(route('pesanan.tampil'))->with('success', 'Data Berhasil diUpdate');
+        }else {
+            $pesanan->layanan_id = $request->layanan_id;
+            $pesanan->jenisBarang_id = $request->jenisBarang_id;
+            $pesanan->status_pesanan = $request->status_pesanan;
+            $pesanan->update();
+            return redirect(route('pesanan.tampil'))->with('success', 'Data Berhasil diUpdate');
+        }
     }
 
     /**
@@ -156,9 +174,17 @@ class PesananController extends Controller
      */
     public function destroy($kode)
     {
-        $data = pesanan::where('kode_pesanan', $kode)->first();
-        $data->delete();
-        return redirect(route('pesanan.tampil'))->with('success', 'Data Berhasil dihapus');;
+        $pesanan = pesanan::where('kode_pesanan', $kode)->first();
+        $pesananID = $pesanan->id;
+        $jadwal = jadwalPesanan::where('pesanan_id', $pesananID)->first();
+        $transaksi = transaksi::where('pesanan_id', $pesananID)->first();
+        $transaksiID = $transaksi->id;
+        $laporan = laporanKeuangan::where('transaksi_id', $transaksiID)->first();
+        $pesanan->delete();
+        $jadwal->delete();
+        $transaksi->delete();
+        $laporan->delete();
+        return redirect(route('pesanan.tampil'))->with('success', 'Data Berhasil dihapus');
 
         
     }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamp('tanggal_transaksi')->useCurrent();
             $table->integer('jumlah_pembayaran');
-            $table->string('status_pembayaran', 10)->default('success');
+            $table->string('status_pembayaran', 50)->default('lunas');
             $table->string('pesanan_id', 5);
             $table->timestamps();
         });
