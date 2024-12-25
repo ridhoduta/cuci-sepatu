@@ -74,7 +74,8 @@ class LaporanKeuanganController extends Controller
     }
     public function pdf() {
         $laporanKeuangan = laporanKeuangan::all();
-        return view('laporanKeuangan.pdf',compact('laporanKeuangan'));
+        $totalPemasukan = laporanKeuangan::sum('total_pemasukan');
+        return view('laporanKeuangan.pdf',compact('laporanKeuangan','totalPemasukan'));
         
     }
     public function excel() {
