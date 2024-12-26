@@ -22,7 +22,6 @@ Route::get('/', function () {
 });
 Route::controller(loginController::class)->group(function () {
     Route::get('/login-admin', 'index')->name('loginView');
-    Route::get('/register', 'register')->name('login.register');
     
 });
 Route::middleware(['auth','Admin'])->group(function () {
